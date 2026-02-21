@@ -1,0 +1,36 @@
+package com.rules
+
+
+import com.example.shoppingCart.model.Order;
+
+rule "10% discount for orders > 1000"
+    when
+        $o : Order(orderAmount > 1000 && orderAmount <= 5000)
+    then
+        $o.setDiscountAmount($o.getOrderAmount() * 0.10);
+        $o.setAppliedRule("10% discount for orders > 1000");
+end
+
+rule "20% discount for orders > 5000"
+    when
+        $o : Order(orderAmount > 5000 && orderAmount <= 10000)
+    then
+        $o.setDiscountAmount($o.getOrderAmount() * 0.20);
+        $o.setAppliedRule("20% discount for orders > 5000");
+end
+
+rule "Extra 5% for PREMIUM"
+    when
+        $o : Order(customerType == "PREMIUM")
+    then
+        $o.setDiscountAmount($o.getDiscountAmount() + $o.getOrderAmount() * 0.05);
+        $o.setAppliedRule("Extra 5% for PREMIUM");
+end
+
+rule "30% flat for PREMIUM orders > 10000"
+    when
+        $o : Order(orderAmount > 10000 && customerType == "PREMIUM")
+    then
+        $o.setDiscountAmount($o.getOrderAmount() * 0.30);
+        $o.setAppliedRule("30% flat for PREMIUM orders > 10000");
+end

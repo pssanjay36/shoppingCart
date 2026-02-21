@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package discount;
+
+// Service definition
+service DiscountService {
+  rpc ApplyDiscount (OrderRequest) returns (OrderResponse);
+}
+
+// Request message
+message OrderRequest {
+  string orderId = 1;
+  string customerType = 2; // REGULAR or PREMIUM
+  double orderAmount = 3;
+}
+
+// Response message
+message OrderResponse {
+  double originalAmount = 1;
+  double discountAmount = 2;
+  double finalAmount = 3;
+  string appliedRule = 4;
+}
